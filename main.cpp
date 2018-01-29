@@ -1,19 +1,43 @@
 #include <iostream>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 
 #include "Game.h"
 
 using namespace std;
+using namespace sf;
 
 int main() {
-    Game game;
-    int i1, i2, j1, j2;
-    while(true){
-        game.draw();
-        cin >> i1 >> j1 >> i2 >> j2;
-        if(i1 == -1){
-            break;
+
+    RenderWindow window(VideoMode(512, 512), "Chess");
+    window.setFramerateLimit(60);
+
+    Texture texture;
+    texture.loadFromFile("assets/board.png");
+
+    Texture pawnTexture;
+    pawnTexture.loadFromFile("assets/blackPawn.png");
+
+    Sprite bgSprite;
+    bgSprite.setTexture(texture);
+
+    Sprite pawnSprite;
+    pawnSprite.setTexture(pawnTexture);
+    pawnSprite.setPosition(7, 7);
+
+    while (window.isOpen()){
+        Event event;
+        while (window.pollEvent(event)){
+            if(event.type == Event::Closed){
+                window.close();
+            }
         }
-        game.readInput(i1, j1, i2, j2);
+
+        window.clear(Color::White);
+        window.draw(bgSprite);
+        window.draw(pawnSprite);
+        window.display();
     }
+
     return 0;
 }
