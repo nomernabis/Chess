@@ -85,6 +85,10 @@ void Game::readInput() {
         if(currentPiece == nullptr){
             currentPiece = board[i][j];
         } else {
+            if(currentPiece->getI() == i && currentPiece->getJ() == j){
+                currentPiece = nullptr;
+                return;
+            }
             if(currentPiece->isValidMove(i, j)){
                 moveShape(currentPiece, i, j);
                 currentPiece = nullptr;
@@ -103,6 +107,15 @@ void Game::moveShape(Piece *shape, int i, int j) {
 void Game::draw() {
     window.clear(Color::White);
     window.draw(boardSprite);
+
+    if(currentPiece != nullptr){
+        RectangleShape rect;
+        rect.setFillColor(Color::Red);
+        rect.setSize({Piece::CELL_SIZE, Piece::CELL_SIZE});
+        rect.setPosition(currentPiece->getJ() * Piece::CELL_SIZE,
+                         currentPiece->getI() * Piece::CELL_SIZE);
+        window.draw(rect);
+    }
     for (int i = 0; i < HEIGHT; ++i) {
         for (int j = 0; j < WIDTH; ++j) {
             if (board[i][j] != nullptr) {
