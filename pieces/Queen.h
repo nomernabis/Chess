@@ -6,9 +6,9 @@
 #define CHESS_QUEEN_H
 
 
-#include "Shape.h"
+#include "Piece.h"
 
-class Queen: public Shape{
+class Queen: public Piece{
 private:
 public:
     explicit Queen(int i=0, int j=0);

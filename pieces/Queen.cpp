@@ -5,8 +5,8 @@
 #include "Queen.h"
 #include <cstdlib>
 
-Queen::Queen(int i, int j): Shape(i, j) {
-    setIcon('Q');
+Queen::Queen(int i, int j): Piece(i, j) {
+    setIcon("assets/blackQueen.png");
 }
 
 bool Queen::isValidMove(int i, int j) {

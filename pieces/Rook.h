@@ -5,9 +5,9 @@
 #ifndef CHESS_ROOK_H
 #define CHESS_ROOK_H
 
-#include "Shape.h"
+#include "Piece.h"
 
-class Rook : public Shape{
+class Rook : public Piece{
 public:
     explicit Rook(int i=0, int j=0);
     bool isValidMove(int i, int j) override;

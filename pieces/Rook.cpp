@@ -3,8 +3,8 @@
 //
 // Created by pavel on 28.01.18.
 //
-Rook::Rook(int i, int j):Shape(i, j) {
-    setIcon('R');
+Rook::Rook(int i, int j):Piece(i, j) {
+    setIcon("assets/blackRook.png");
 }
 
 bool Rook::isValidMove(int i, int j) {

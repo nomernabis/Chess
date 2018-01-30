@@ -5,9 +5,9 @@
 #ifndef CHESS_PAWN_H
 #define CHESS_PAWN_H
 
-#include "Shape.h"
+#include "Piece.h"
 
-class Pawn: public Shape {
+class Pawn: public Piece {
 public:
     explicit Pawn(int i=0, int j=0);
     bool isValidMove(int i, int j) override;

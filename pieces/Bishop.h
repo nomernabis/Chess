@@ -6,10 +6,10 @@
 #define CHESS_BISHOP_H
 
 #include <cstdlib>
-#include "Shape.h"
+#include "Piece.h"
 
 
-class Bishop: public Shape {
+class Bishop: public Piece {
 public:
     explicit Bishop(int i=0, int j=0);
     bool isValidMove(int i, int j) override;

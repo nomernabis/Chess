@@ -3,48 +3,70 @@
 //
 
 #include "Game.h"
-#include "shapes/Pawn.h"
-#include "shapes/Rook.h"
-#include "shapes/Bishop.h"
-#include "shapes/Queen.h"
-#include "shapes/King.h"
-#include "shapes/Knight.h"
+#include "pieces/Rook.h"
+#include "pieces/Knight.h"
+#include "pieces/Bishop.h"
+#include "pieces/Queen.h"
+#include "pieces/Pawn.h"
+#include "pieces/King.h"
 
-Game::Game() {
+using namespace sf;
+
+Game::Game()
+        :window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Chess") {
     init();
 }
 
-Game::~Game(){
-    for(int i=0; i < HEIGHT; ++i){
-        for(int j=0; j < WIDTH; ++j){
-            if(board[i][j] != nullptr){
+Game::~Game() {
+    for (int i = 0; i < HEIGHT; ++i) {
+        for (int j = 0; j < WIDTH; ++j) {
+            if (board[i][j] != nullptr) {
                 delete board[i][j];
             }
         }
     }
 }
 
-void Game::init(){
+void Game::run() {
+    window.setFramerateLimit(60);
+
+    while (window.isOpen()) {
+        Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == Event::Closed) {
+                window.close();
+            }
+            readInput();
+        }
+        draw();
+    }
+}
+
+void Game::init() {
+    //load resources
+    boardTexture.loadFromFile("assets/board.png");
+    boardSprite.setTexture(boardTexture);
     //initial layout
+    //"RHBQKBHR",
     string map[2] = {
             "RHBQKBHR",
             "PPPPPPPP"
     };
 
-    Shape* shape;
-    for(int i=0; i < 2; ++i){
-        for(int j=0; j < WIDTH; ++j){
-            if(map[i][j] == 'R'){
+    Piece *shape;
+    for (int i = 0; i < 2; ++i) {
+        for (int j = 0; j < WIDTH; ++j) {
+            if (map[i][j] == 'R') {
                 shape = new Rook;
-            } else if(map[i][j] == 'H'){
+            } else if (map[i][j] == 'H') {
                 shape = new Knight;
-            } else if(map[i][j] == 'B'){
+            } else if (map[i][j] == 'B') {
                 shape = new Bishop;
-            } else if(map[i][j] == 'Q'){
+            } else if (map[i][j] == 'Q') {
                 shape = new Queen;
-            } else if(map[i][j] == 'P'){
+            } else if (map[i][j] == 'P') {
                 shape = new Pawn;
-            } else if(map[i][j] == 'K'){
+            } else if (map[i][j] == 'K') {
                 shape = new King;
             }
             shape->setPosition(i, j);
@@ -53,31 +75,42 @@ void Game::init(){
     }
 }
 
-void Game::readInput(int i1, int j1, int i2, int j2){
-    Shape* shape = board[i1][j1];
-    if(shape != nullptr){
-        if(shape->isValidMove(i2, j2)){
-            moveShape(shape, i2, j2);
+void Game::readInput() {
+    Vector2i position;
+    if(Mouse::isButtonPressed(Mouse::Left)){
+        position = Mouse::getPosition(window);
+        int i = position.y / Piece::CELL_SIZE;
+        int j = position.x / Piece::CELL_SIZE;
+
+        if(currentPiece == nullptr){
+            currentPiece = board[i][j];
+        } else {
+            if(currentPiece->isValidMove(i, j)){
+                moveShape(currentPiece, i, j);
+                currentPiece = nullptr;
+            }
         }
     }
+
 }
 
-void Game::moveShape(Shape* shape, int i, int j) {
+void Game::moveShape(Piece *shape, int i, int j) {
     board[shape->getI()][shape->getJ()] = nullptr;
     shape->setPosition(i, j);
     board[i][j] = shape;
 }
 
 void Game::draw() {
-    for(int i=0; i < HEIGHT; ++i){
-        for(int j=0; j < WIDTH; ++j){
-           if(board[i][j] == nullptr){
-               cout << '0';
-           } else {
-               cout << board[i][j]->getIcon();
-           }
+    window.clear(Color::White);
+    window.draw(boardSprite);
+    for (int i = 0; i < HEIGHT; ++i) {
+        for (int j = 0; j < WIDTH; ++j) {
+            if (board[i][j] != nullptr) {
+                window.draw(*board[i][j]->getIconSprite());
+            }
         }
-        cout << '\n';
+
     }
+    window.display();
 }
 

@@ -5,8 +5,8 @@
 #include "King.h"
 #include <cstdlib>
 
-King::King(int i, int j) :Shape(i, j) {
-    setIcon('K');
+King::King(int i, int j) :Piece(i, j) {
+    setIcon("assets/blackKing.png");
 }
 
 bool King::isValidMove(int i, int j) {

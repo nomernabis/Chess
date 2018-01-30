@@ -3,8 +3,8 @@
 //
 
 #include "Bishop.h"
-Bishop::Bishop(int i, int j): Shape(i, j) {
-    setIcon('B');
+Bishop::Bishop(int i, int j): Piece(i, j) {
+    setIcon("assets/blackBishop.png");
 }
 
 bool Bishop::isValidMove(int i, int j) {

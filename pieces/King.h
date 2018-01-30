@@ -6,9 +6,9 @@
 #define CHESS_KING_H
 
 
-#include "Shape.h"
+#include "Piece.h"
 
-class King: public Shape {
+class King: public Piece {
 public:
     explicit King(int i=0, int j=0);
     bool isValidMove(int i, int j) override;
