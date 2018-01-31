@@ -46,6 +46,11 @@ void Game::init() {
     //load resources
     boardTexture.loadFromFile("assets/board.png");
     boardSprite.setTexture(boardTexture);
+
+    redRect.setFillColor(Color::Red);
+    redRect.setSize({Piece::CELL_SIZE, Piece::CELL_SIZE});
+    redRect.setPosition(currentPiece->getJ() * Piece::CELL_SIZE,
+                     currentPiece->getI() * Piece::CELL_SIZE);
     //initial layout
     //"RHBQKBHR",
     string map[2] = {
@@ -53,24 +58,23 @@ void Game::init() {
             "PPPPPPPP"
     };
 
-    Piece *shape;
+    Piece *piece = nullptr;
     for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < WIDTH; ++j) {
             if (map[i][j] == 'R') {
-                shape = new Rook;
+                piece = new Rook(i, j);
             } else if (map[i][j] == 'H') {
-                shape = new Knight;
+                piece = new Knight(i, j);
             } else if (map[i][j] == 'B') {
-                shape = new Bishop;
+                piece = new Bishop(i, j);
             } else if (map[i][j] == 'Q') {
-                shape = new Queen;
+                piece = new Queen(i, j);
             } else if (map[i][j] == 'P') {
-                shape = new Pawn;
+                piece = new Pawn(i, j);
             } else if (map[i][j] == 'K') {
-                shape = new King;
+                piece = new King(i, j);
             }
-            shape->setPosition(i, j);
-            board[i][j] = shape;
+            board[i][j] = piece;
         }
     }
 }
@@ -109,12 +113,7 @@ void Game::draw() {
     window.draw(boardSprite);
 
     if(currentPiece != nullptr){
-        RectangleShape rect;
-        rect.setFillColor(Color::Red);
-        rect.setSize({Piece::CELL_SIZE, Piece::CELL_SIZE});
-        rect.setPosition(currentPiece->getJ() * Piece::CELL_SIZE,
-                         currentPiece->getI() * Piece::CELL_SIZE);
-        window.draw(rect);
+        window.draw(redRect);
     }
     for (int i = 0; i < HEIGHT; ++i) {
         for (int j = 0; j < WIDTH; ++j) {

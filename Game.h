@@ -22,17 +22,20 @@ private:
     RenderWindow window;
     Texture boardTexture;
     Sprite boardSprite;
+    RectangleShape redRect;
+
     Piece* board[WIDTH][HEIGHT] = { nullptr };
+    Piece* currentPiece;
+
     void moveShape(Piece*, int x, int y);
     void init();
-
-    Piece* currentPiece;
+    void readInput();
+    void draw();
 public:
+    static const int CELL_SIZE = 64;
     Game();
     ~Game();
     void run();
-    void readInput();
-    void draw();
 };
 
 #endif //CHESS_GAME_H

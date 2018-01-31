@@ -16,8 +16,6 @@ private:
     Sprite sprite;
     Texture texture;
 public:
-    static const int SPRITE_SIZE = 50;
-    static const int CELL_SIZE = 64;
     static const int OFFSET = 7;
     explicit Piece(int i = 0, int j = 0);
     int getI();

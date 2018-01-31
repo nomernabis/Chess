@@ -3,6 +3,7 @@
 //
 
 #include "Piece.h"
+#include "../Game.h"
 
 Piece::Piece(int i, int j) :i(i), j(j) {}
 
@@ -25,13 +26,13 @@ void Piece::setJ(int j) {
 void Piece::setPosition(int i, int j){
     this->i = i;
     this->j = j;
-    sprite.setPosition(j * CELL_SIZE + OFFSET, i * CELL_SIZE + OFFSET);
+    sprite.setPosition(j * Game::CELL_SIZE + OFFSET, i * Game::CELL_SIZE + OFFSET);
 }
 
 void Piece::setIcon(string iconPath) {
     texture.loadFromFile(iconPath);
     sprite.setTexture(texture);
-    sprite.setPosition(j * CELL_SIZE + OFFSET, i * CELL_SIZE + OFFSET);
+    sprite.setPosition(j * Game::CELL_SIZE + OFFSET, i * Game::CELL_SIZE + OFFSET);
 }
 
 Sprite* Piece::getIconSprite() {
