@@ -13,7 +13,7 @@
 using namespace sf;
 
 Game::Game()
-        :window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Chess") {
+        :window(VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Chess"), currentPiece{nullptr} {
     init();
 }
 
@@ -48,9 +48,7 @@ void Game::init() {
     boardSprite.setTexture(boardTexture);
 
     redRect.setFillColor(Color::Red);
-    redRect.setSize({Piece::CELL_SIZE, Piece::CELL_SIZE});
-    redRect.setPosition(currentPiece->getJ() * Piece::CELL_SIZE,
-                     currentPiece->getI() * Piece::CELL_SIZE);
+    redRect.setSize({Game::CELL_SIZE, Game::CELL_SIZE});
     //initial layout
     //"RHBQKBHR",
     string map[2] = {
@@ -83,8 +81,8 @@ void Game::readInput() {
     Vector2i position;
     if(Mouse::isButtonPressed(Mouse::Left)){
         position = Mouse::getPosition(window);
-        int i = position.y / Piece::CELL_SIZE;
-        int j = position.x / Piece::CELL_SIZE;
+        int i = position.y / Game::CELL_SIZE;
+        int j = position.x / Game::CELL_SIZE;
 
         if(currentPiece == nullptr){
             currentPiece = board[i][j];
@@ -113,6 +111,8 @@ void Game::draw() {
     window.draw(boardSprite);
 
     if(currentPiece != nullptr){
+        redRect.setPosition(currentPiece->getJ() * Game::CELL_SIZE,
+                            currentPiece->getI() * Game::CELL_SIZE);
         window.draw(redRect);
     }
     for (int i = 0; i < HEIGHT; ++i) {
