@@ -5,8 +5,7 @@
 #include "Knight.h"
 #include <cstdlib>
 
-Knight::Knight(int i, int j): Piece(i, j){
-    setIcon("assets/blackKnight.png");
+Knight::Knight(int i, int j, const Texture& texture): Piece(i, j, texture){
 }
 
 bool Knight::isValidMove(int i2, int j2) {

@@ -4,8 +4,7 @@
 
 #include "Pawn.h"
 
-Pawn::Pawn(int x, int y): Piece(x, y) {
-    setIcon("assets/blackPawn.png");
+Pawn::Pawn(int x, int y, const Texture& texture): Piece(x, y, texture) {
 }
 
 bool Pawn::isValidMove(int i, int j) {

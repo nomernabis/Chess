@@ -11,7 +11,7 @@
 class Queen: public Piece{
 private:
 public:
-    explicit Queen(int i=0, int j=0);
+    explicit Queen(int i, int j, const Texture& texture);
     bool isValidMove(int i, int j) override;
 };
 

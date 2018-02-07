@@ -9,7 +9,7 @@
 
 class Rook : public Piece{
 public:
-    explicit Rook(int i=0, int j=0);
+    explicit Rook(int i, int j, const Texture& texture);
     bool isValidMove(int i, int j) override;
 };
 #endif //CHESS_ROOK_H

@@ -7,6 +7,8 @@
 
 #include <string>
 #include <SFML/Graphics.hpp>
+#include "../TextureHolder.h"
+
 using namespace std;
 using namespace sf;
 
@@ -14,19 +16,14 @@ class Piece {
 private:
     int i, j;
     Sprite sprite;
-    Texture texture;
 public:
     static const int OFFSET = 7;
-    explicit Piece(int i = 0, int j = 0);
+    Piece() = default;
+    explicit Piece(int i, int j, const Texture& texture);
     int getI();
     int getJ();
-    void setI(int i);
-    void setJ(int j);
     void setPosition(int i, int j);
-
-    Sprite* getIconSprite();
-    void setIcon(string path);
-
+    Sprite getIconSprite();
     virtual bool isValidMove(int i, int j) = 0;
     virtual ~Piece();
 };

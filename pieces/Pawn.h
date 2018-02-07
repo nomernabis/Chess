@@ -9,7 +9,7 @@
 
 class Pawn: public Piece {
 public:
-    explicit Pawn(int i=0, int j=0);
+    explicit Pawn(int i, int j, const Texture& texture);
     bool isValidMove(int i, int j) override;
 };
 

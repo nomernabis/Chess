@@ -42,8 +42,18 @@ void Game::run() {
     }
 }
 
+void Game::loadTextures() {
+    textureHolder.load(Textures::ID::BLACK_PAWN, assetsPath + "blackPawn.png");
+    textureHolder.load(Textures::ID::BLACK_KING, assetsPath + "blackKing.png");
+    textureHolder.load(Textures::ID::BLACK_QUEEN, assetsPath + "blackQueen.png");
+    textureHolder.load(Textures::ID::BLACK_BISHOP, assetsPath + "blackBishop.png");
+    textureHolder.load(Textures::ID::BLACK_ROOK, assetsPath + "blackRook.png");
+    textureHolder.load(Textures::ID::BLACK_KNIGHT, assetsPath + "blackKnight.png");
+}
+
 void Game::init() {
-    //load resources
+    loadTextures();
+
     boardTexture.loadFromFile("assets/board.png");
     boardSprite.setTexture(boardTexture);
 
@@ -60,17 +70,17 @@ void Game::init() {
     for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < WIDTH; ++j) {
             if (map[i][j] == 'R') {
-                piece = new Rook(i, j);
+                piece = new Rook(i, j, textureHolder.get(Textures::ID::BLACK_ROOK));
             } else if (map[i][j] == 'H') {
-                piece = new Knight(i, j);
+                piece = new Knight(i, j, textureHolder.get(Textures::ID::BLACK_KNIGHT));
             } else if (map[i][j] == 'B') {
-                piece = new Bishop(i, j);
+                piece = new Bishop(i, j, textureHolder.get(Textures::ID::BLACK_BISHOP));
             } else if (map[i][j] == 'Q') {
-                piece = new Queen(i, j);
+                piece = new Queen(i, j, textureHolder.get(Textures::ID::BLACK_QUEEN));
             } else if (map[i][j] == 'P') {
-                piece = new Pawn(i, j);
+                piece = new Pawn(i, j, textureHolder.get(Textures::ID::BLACK_PAWN));
             } else if (map[i][j] == 'K') {
-                piece = new King(i, j);
+                piece = new King(i, j, textureHolder.get(Textures::ID::BLACK_KING));
             }
             board[i][j] = piece;
         }
@@ -118,11 +128,12 @@ void Game::draw() {
     for (int i = 0; i < HEIGHT; ++i) {
         for (int j = 0; j < WIDTH; ++j) {
             if (board[i][j] != nullptr) {
-                window.draw(*board[i][j]->getIconSprite());
+                window.draw(board[i][j]->getIconSprite());
             }
         }
 
     }
     window.display();
 }
+
 

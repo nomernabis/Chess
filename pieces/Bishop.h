@@ -11,7 +11,7 @@
 
 class Bishop: public Piece {
 public:
-    explicit Bishop(int i=0, int j=0);
+    explicit Bishop(int i, int j, const Texture& texture);
     bool isValidMove(int i, int j) override;
 };
 

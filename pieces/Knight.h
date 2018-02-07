@@ -10,7 +10,7 @@
 
 class Knight: public Piece {
 public:
-    explicit Knight(int i=0,  int j=0);
+    explicit Knight(int i,  int j, const Texture& texture);
     bool isValidMove(int i2, int j2) override;
 };
 

@@ -9,28 +9,35 @@
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
 #include "pieces/Piece.h"
+#include "TextureHolder.h"
 
 using namespace std;
 
 class Game{
 private:
+    //constants
     static const int WIDTH = 8;
     static const int HEIGHT = 8;
     const int SCREEN_WIDTH = 512;
     const int SCREEN_HEIGHT = 512;
-
+    const string assetsPath = "assets/";
+    //fields
+    Piece* board[WIDTH][HEIGHT] = { nullptr };
+    Piece* currentPiece{nullptr};
+    //GUI
     RenderWindow window;
+
+    TextureHolder textureHolder;
+
     Texture boardTexture;
     Sprite boardSprite;
     RectangleShape redRect;
-
-    Piece* board[WIDTH][HEIGHT] = { nullptr };
-    Piece* currentPiece;
-
+    //methods
     void moveShape(Piece*, int x, int y);
     void init();
     void readInput();
     void draw();
+    void loadTextures();
 public:
     static const int CELL_SIZE = 64;
     Game();
