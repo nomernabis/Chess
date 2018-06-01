@@ -10,7 +10,7 @@
 
 class King: public Piece {
 public:
-    explicit King(int i, int j, const Texture& texture);
+    using Piece::Piece;
     bool isValidMove(int i, int j) override;
 };
 

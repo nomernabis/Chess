@@ -20,6 +20,7 @@ private:
     static const int HEIGHT = 8;
     const int SCREEN_WIDTH = 512;
     const int SCREEN_HEIGHT = 512;
+    const string map[2] = {"RHBQKBHR", "PPPPPPPP"};
     const string assetsPath = "assets/";
     //fields
     Piece* board[WIDTH][HEIGHT] = { nullptr };
@@ -38,6 +39,8 @@ private:
     void readInput();
     void draw();
     void loadTextures();
+    bool is_collisions(int i, int j);
+    bool is_knight(Piece* piece);
 public:
     static const int CELL_SIZE = 64;
     Game();

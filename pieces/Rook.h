@@ -9,7 +9,7 @@
 
 class Rook : public Piece{
 public:
-    explicit Rook(int i, int j, const Texture& texture);
+    using Piece::Piece;
     bool isValidMove(int i, int j) override;
 };
 #endif //CHESS_ROOK_H

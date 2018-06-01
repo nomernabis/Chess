@@ -12,14 +12,17 @@
 using namespace std;
 using namespace sf;
 
+
 class Piece {
 private:
     int i, j;
     Sprite sprite;
 public:
+    enum Color{ WHITE=0, BLACK};
+    Color color;
     static const int OFFSET = 7;
     Piece() = default;
-    explicit Piece(int i, int j, const Texture& texture);
+    explicit Piece(int i, int j, const Texture& texture, Color color);
     int getI();
     int getJ();
     void setPosition(int i, int j);

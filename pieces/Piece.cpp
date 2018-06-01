@@ -5,10 +5,11 @@
 #include "Piece.h"
 #include "../Game.h"
 
-Piece::Piece(int i, int j, const Texture& texture)
+Piece::Piece(int i, int j, const Texture& texture, Color color)
 {
     sprite.setTexture(texture);
     setPosition(i, j);
+    this->color = color;
 }
 
 int Piece::getI(){
