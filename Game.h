@@ -19,7 +19,7 @@ private:
     static const int WIDTH = 8;
     static const int HEIGHT = 8;
     const int SCREEN_WIDTH = 512;
-    const int SCREEN_HEIGHT = 512;
+    const int SCREEN_HEIGHT = 512 + BOARD_OFFSET * 2;
     const string map[2] = {"RHBQKBHR", "PPPPPPPP"};
     const string assetsPath = "assets/";
     //fields
@@ -45,6 +45,7 @@ private:
     void next_player();
 public:
     static const int CELL_SIZE = 64;
+    static const int BOARD_OFFSET = 140;
     Game();
     ~Game();
     void run();

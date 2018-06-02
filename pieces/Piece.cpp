@@ -23,7 +23,7 @@ int Piece::getJ(){
 void Piece::setPosition(int i, int j){
     this->i = i;
     this->j = j;
-    sprite.setPosition(j * Game::CELL_SIZE + OFFSET, i * Game::CELL_SIZE + OFFSET);
+    sprite.setPosition(j * Game::CELL_SIZE + OFFSET, i * Game::CELL_SIZE + OFFSET + Game::BOARD_OFFSET);
 }
 
 

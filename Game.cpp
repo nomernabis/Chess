@@ -63,6 +63,7 @@ void Game::init() {
 
     boardTexture.loadFromFile("assets/board.png");
     boardSprite.setTexture(boardTexture);
+    boardSprite.move(0, BOARD_OFFSET);
 
     redRect.setFillColor(Color::Red);
     redRect.setSize({Game::CELL_SIZE, Game::CELL_SIZE});
@@ -139,7 +140,9 @@ void Game::readInput() {
     Vector2i position;
     if(Mouse::isButtonPressed(Mouse::Left)){
         position = Mouse::getPosition(window);
-        int i = position.y / Game::CELL_SIZE;
+
+
+        int i = (position.y - BOARD_OFFSET)/ Game::CELL_SIZE;
         int j = position.x / Game::CELL_SIZE;
 
         if(currentPiece == nullptr){
@@ -157,13 +160,9 @@ void Game::readInput() {
                 if(!is_knight(currentPiece)){
                     if(!is_collisions(i, j)){
                         moveShape(currentPiece, i, j);
-                        currentPiece = nullptr;
-                        next_player();
                     }
                 } else {
                     moveShape(currentPiece, i, j);
-                    currentPiece = nullptr;
-                    next_player();
                 }
             }
         }
@@ -172,9 +171,22 @@ void Game::readInput() {
 }
 
 void Game::moveShape(Piece *shape, int i, int j) {
-    board[shape->getI()][shape->getJ()] = nullptr;
-    shape->setPosition(i, j);
-    board[i][j] = shape;
+
+    if(board[i][j] == nullptr){
+        board[shape->getI()][shape->getJ()] = nullptr;
+        shape->setPosition(i, j);
+        board[i][j] = shape;
+        currentPiece = nullptr;
+        next_player();
+    } else {
+        if(board[i][j]->color != current_player){
+            board[shape->getI()][shape->getJ()] = nullptr;
+            shape->setPosition(i, j);
+            board[i][j] = shape;
+            currentPiece = nullptr;
+            next_player();
+        }
+    }
 }
 
 void Game::draw() {
@@ -183,7 +195,7 @@ void Game::draw() {
 
     if(currentPiece != nullptr){
         redRect.setPosition(currentPiece->getJ() * Game::CELL_SIZE,
-                            currentPiece->getI() * Game::CELL_SIZE);
+                            currentPiece->getI() * Game::CELL_SIZE + BOARD_OFFSET);
         window.draw(redRect);
     }
     for (int i = 0; i < HEIGHT; ++i) {
