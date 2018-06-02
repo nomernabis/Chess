@@ -49,6 +49,13 @@ void Game::loadTextures() {
     textureHolder.load(Textures::ID::BLACK_BISHOP, assetsPath + "blackBishop.png");
     textureHolder.load(Textures::ID::BLACK_ROOK, assetsPath + "blackRook.png");
     textureHolder.load(Textures::ID::BLACK_KNIGHT, assetsPath + "blackKnight.png");
+
+    textureHolder.load(Textures::ID::WHITE_PAWN, assetsPath + "whitePawn.png");
+    textureHolder.load(Textures::ID::WHITE_KING, assetsPath + "whiteKing.png");
+    textureHolder.load(Textures::ID::WHITE_QUEEN, assetsPath + "whiteQueen.png");
+    textureHolder.load(Textures::ID::WHITE_BISHOP, assetsPath + "whiteBishop.png");
+    textureHolder.load(Textures::ID::WHITE_ROOK, assetsPath + "whiteRook.png");
+    textureHolder.load(Textures::ID::WHITE_KNIGHT, assetsPath + "whiteKnight.png");
 }
 
 void Game::init() {
@@ -61,26 +68,30 @@ void Game::init() {
     redRect.setSize({Game::CELL_SIZE, Game::CELL_SIZE});
     //initial layout
 
-
-    Piece *piece = nullptr;
     for (int i = 0; i < 2; ++i) {
         for (int j = 0; j < WIDTH; ++j) {
             if (map[i][j] == 'R') {
-                piece = new Rook(i, j, textureHolder.get(Textures::ID::BLACK_ROOK), Piece::Color::BLACK);
+                board[i][j] = new Rook(i, j, textureHolder.get(Textures::ID::BLACK_ROOK), Piece::Color::BLACK);
+                board[HEIGHT - 1 - i][j] = new Rook(HEIGHT - 1 - i, j, textureHolder.get(Textures::ID::WHITE_ROOK), Piece::Color::WHITE);
             } else if (map[i][j] == 'H') {
-                piece = new Knight(i, j, textureHolder.get(Textures::ID::BLACK_KNIGHT), Piece::Color::BLACK);
+                board[i][j] = new Knight(i, j, textureHolder.get(Textures::ID::BLACK_KNIGHT), Piece::Color::BLACK);
+                board[HEIGHT - 1 - i][j] = new Knight(HEIGHT - 1 - i, j, textureHolder.get(Textures::ID::WHITE_KNIGHT), Piece::Color::WHITE);
             } else if (map[i][j] == 'B') {
-                piece = new Bishop(i, j, textureHolder.get(Textures::ID::BLACK_BISHOP), Piece::Color::BLACK);
+                board[i][j] = new Bishop(i, j, textureHolder.get(Textures::ID::BLACK_BISHOP), Piece::Color::BLACK);
+                board[HEIGHT - 1 - i][j] = new Bishop(HEIGHT - 1 - i, j, textureHolder.get(Textures::ID::WHITE_BISHOP), Piece::Color::WHITE);
             } else if (map[i][j] == 'Q') {
-                piece = new Queen(i, j, textureHolder.get(Textures::ID::BLACK_QUEEN), Piece::Color::BLACK);
+                board[i][j] = new Queen(i, j, textureHolder.get(Textures::ID::BLACK_QUEEN), Piece::Color::BLACK);
+                board[HEIGHT - 1 - i][j] = new Queen(HEIGHT - 1 - i, j, textureHolder.get(Textures::ID::WHITE_QUEEN), Piece::Color::WHITE);
             } else if (map[i][j] == 'P') {
-                piece = new Pawn(i, j, textureHolder.get(Textures::ID::BLACK_PAWN), Piece::Color::BLACK);
+                board[i][j] = new Pawn(i, j, textureHolder.get(Textures::ID::BLACK_PAWN), Piece::Color::BLACK);
+                board[HEIGHT - 1 - i][j] = new Pawn(HEIGHT - 1 - i, j, textureHolder.get(Textures::ID::WHITE_PAWN), Piece::Color::WHITE);
             } else if (map[i][j] == 'K') {
-                piece = new King(i, j, textureHolder.get(Textures::ID::BLACK_KING), Piece::Color::BLACK);
+                board[i][j] = new King(i, j, textureHolder.get(Textures::ID::BLACK_KING), Piece::Color::BLACK);
+                board[HEIGHT - 1 - i][j] = new King(HEIGHT - 1 - i, j, textureHolder.get(Textures::ID::WHITE_KING), Piece::Color::WHITE);
             }
-            board[i][j] = piece;
         }
     }
+
 }
 
 bool Game::is_collisions(int i, int j) {
@@ -116,6 +127,14 @@ bool Game::is_knight(Piece *piece) {
    return dynamic_cast<Knight*>(piece) != nullptr;
 }
 
+void Game::next_player() {
+    if(current_player == Piece::Color::WHITE){
+        current_player = Piece::Color::BLACK;
+    } else {
+        current_player = Piece::Color::WHITE;
+    }
+}
+
 void Game::readInput() {
     Vector2i position;
     if(Mouse::isButtonPressed(Mouse::Left)){
@@ -124,7 +143,11 @@ void Game::readInput() {
         int j = position.x / Game::CELL_SIZE;
 
         if(currentPiece == nullptr){
-            currentPiece = board[i][j];
+            if(board[i][j] != nullptr){
+                if(board[i][j]->color == current_player){
+                    currentPiece = board[i][j];
+                }
+            }
         } else {
             if(currentPiece->getI() == i && currentPiece->getJ() == j){
                 currentPiece = nullptr;
@@ -135,10 +158,12 @@ void Game::readInput() {
                     if(!is_collisions(i, j)){
                         moveShape(currentPiece, i, j);
                         currentPiece = nullptr;
+                        next_player();
                     }
                 } else {
                     moveShape(currentPiece, i, j);
                     currentPiece = nullptr;
+                    next_player();
                 }
             }
         }

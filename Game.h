@@ -25,6 +25,7 @@ private:
     //fields
     Piece* board[WIDTH][HEIGHT] = { nullptr };
     Piece* currentPiece{nullptr};
+    Piece::Color current_player = Piece::Color::WHITE;
     //GUI
     RenderWindow window;
 
@@ -41,6 +42,7 @@ private:
     void loadTextures();
     bool is_collisions(int i, int j);
     bool is_knight(Piece* piece);
+    void next_player();
 public:
     static const int CELL_SIZE = 64;
     Game();
