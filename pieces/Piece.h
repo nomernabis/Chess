@@ -26,6 +26,7 @@ public:
     int getI();
     int getJ();
     void setPosition(int i, int j);
+    void setPositionEeaten(int i);
     Sprite getIconSprite();
     virtual bool isValidMove(int i, int j) = 0;
     virtual ~Piece();

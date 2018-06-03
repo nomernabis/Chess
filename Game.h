@@ -25,7 +25,9 @@ private:
     //fields
     Piece* board[WIDTH][HEIGHT] = { nullptr };
     Piece* currentPiece{nullptr};
+    //
     Piece::Color current_player = Piece::Color::WHITE;
+    std::vector<Piece*> eaten_white, eaten_black;
     //GUI
     RenderWindow window;
 
@@ -43,6 +45,7 @@ private:
     bool is_collisions(int i, int j);
     bool is_knight(Piece* piece);
     void next_player();
+    void draw_eaten();
 public:
     static const int CELL_SIZE = 64;
     static const int BOARD_OFFSET = 140;

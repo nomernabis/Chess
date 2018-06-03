@@ -26,6 +26,13 @@ void Piece::setPosition(int i, int j){
     sprite.setPosition(j * Game::CELL_SIZE + OFFSET, i * Game::CELL_SIZE + OFFSET + Game::BOARD_OFFSET);
 }
 
+void Piece::setPositionEeaten(int i) {
+    if(i < 8){
+        sprite.setPosition(i * Game::CELL_SIZE + OFFSET, OFFSET);
+    } else {
+        sprite.setPosition(i * Game::CELL_SIZE + OFFSET, Game::CELL_SIZE + OFFSET);
+    }
+}
 
 Sprite Piece::getIconSprite() {
     return sprite;

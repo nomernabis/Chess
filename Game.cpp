@@ -181,6 +181,13 @@ void Game::moveShape(Piece *shape, int i, int j) {
     } else {
         if(board[i][j]->color != current_player){
             board[shape->getI()][shape->getJ()] = nullptr;
+            if(board[i][j]->color == Piece::WHITE){
+                board[i][j]->setPositionEeaten(eaten_white.size());
+                eaten_white.push_back(board[i][j]);
+            } else {
+                board[i][j]->setPositionEeaten(eaten_black.size());
+                eaten_black.push_back(board[i][j]);
+            }
             shape->setPosition(i, j);
             board[i][j] = shape;
             currentPiece = nullptr;
@@ -189,15 +196,25 @@ void Game::moveShape(Piece *shape, int i, int j) {
     }
 }
 
+void Game::draw_eaten() {
+    for(Piece* piece : eaten_white){
+        window.draw(piece->getIconSprite());
+    }
+}
+
 void Game::draw() {
     window.clear(Color::White);
     window.draw(boardSprite);
 
+    draw_eaten();
     if(currentPiece != nullptr){
         redRect.setPosition(currentPiece->getJ() * Game::CELL_SIZE,
                             currentPiece->getI() * Game::CELL_SIZE + BOARD_OFFSET);
         window.draw(redRect);
     }
+
+
+
     for (int i = 0; i < HEIGHT; ++i) {
         for (int j = 0; j < WIDTH; ++j) {
             if (board[i][j] != nullptr) {
