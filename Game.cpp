@@ -69,6 +69,9 @@ void Game::init() {
     redRect.setSize({Game::CELL_SIZE, Game::CELL_SIZE});
     blackRect.setFillColor(Color::Black);
     blackRect.setSize({300, 200});
+    blackRect.setPosition(window.getSize().x / 2 - blackRect.getSize().x / 2,  (window.getSize().y - blackRect.getSize().y)/2);
+
+
 
     //initial layout
 
@@ -198,6 +201,7 @@ void Game::moveShape(Piece *shape, int i, int j) {
             shape->setPosition(i, j);
             if(is_instance<King>(board[i][j])){
                 is_running = false;
+                return;
             }
             board[i][j] = shape;
             currentPiece = nullptr;
@@ -215,9 +219,6 @@ void Game::draw_eaten() {
     }
 }
 
-void Game::draw_label() {
-
-}
 
 void Game::reset_game() {
 
@@ -243,10 +244,10 @@ void Game::draw() {
             }
 
         }
-        window.display();
     } else {
-        draw_label();
+        window.draw(blackRect);
     }
+    window.display();
 }
 
 

@@ -48,7 +48,6 @@ private:
     template<class T> bool is_instance(Piece*);
     void next_player();
     void draw_eaten();
-    void draw_label();
     void reset_game();
 public:
     static const int CELL_SIZE = 64;
