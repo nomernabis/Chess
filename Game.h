@@ -36,6 +36,7 @@ private:
     Texture boardTexture;
     Sprite boardSprite;
     RectangleShape redRect;
+    RectangleShape blackRect;
     //methods
     void moveShape(Piece*, int x, int y);
     void init();
@@ -44,11 +45,15 @@ private:
     void loadTextures();
     bool is_collisions(int i, int j);
     bool is_knight(Piece* piece);
+    template<class T> bool is_instance(Piece*);
     void next_player();
     void draw_eaten();
+    void draw_label();
+    void reset_game();
 public:
     static const int CELL_SIZE = 64;
     static const int BOARD_OFFSET = 140;
+    bool is_running = true;
     Game();
     ~Game();
     void run();

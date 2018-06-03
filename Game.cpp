@@ -67,6 +67,9 @@ void Game::init() {
 
     redRect.setFillColor(Color::Red);
     redRect.setSize({Game::CELL_SIZE, Game::CELL_SIZE});
+    blackRect.setFillColor(Color::Black);
+    blackRect.setSize({300, 200});
+
     //initial layout
 
     for (int i = 0; i < 2; ++i) {
@@ -124,6 +127,10 @@ bool Game::is_collisions(int i, int j) {
     return false;
 }
 
+template<class T> bool Game::is_instance(Piece *piece) {
+    return dynamic_cast<T*>(piece) != nullptr;
+}
+
 bool Game::is_knight(Piece *piece) {
    return dynamic_cast<Knight*>(piece) != nullptr;
 }
@@ -157,7 +164,7 @@ void Game::readInput() {
                 return;
             }
             if(currentPiece->isValidMove(i, j) ){
-                if(!is_knight(currentPiece)){
+                if(!is_instance<Knight>(currentPiece)){
                     if(!is_collisions(i, j)){
                         moveShape(currentPiece, i, j);
                     }
@@ -189,6 +196,9 @@ void Game::moveShape(Piece *shape, int i, int j) {
                 eaten_black.push_back(board[i][j]);
             }
             shape->setPosition(i, j);
+            if(is_instance<King>(board[i][j])){
+                is_running = false;
+            }
             board[i][j] = shape;
             currentPiece = nullptr;
             next_player();
@@ -200,30 +210,43 @@ void Game::draw_eaten() {
     for(Piece* piece : eaten_white){
         window.draw(piece->getIconSprite());
     }
+    for(Piece* piece : eaten_black){
+        window.draw(piece->getIconSprite());
+    }
+}
+
+void Game::draw_label() {
+
+}
+
+void Game::reset_game() {
+
 }
 
 void Game::draw() {
     window.clear(Color::White);
     window.draw(boardSprite);
 
-    draw_eaten();
-    if(currentPiece != nullptr){
-        redRect.setPosition(currentPiece->getJ() * Game::CELL_SIZE,
-                            currentPiece->getI() * Game::CELL_SIZE + BOARD_OFFSET);
-        window.draw(redRect);
-    }
-
-
-
-    for (int i = 0; i < HEIGHT; ++i) {
-        for (int j = 0; j < WIDTH; ++j) {
-            if (board[i][j] != nullptr) {
-                window.draw(board[i][j]->getIconSprite());
-            }
+    if(is_running){
+        draw_eaten();
+        if(currentPiece != nullptr){
+            redRect.setPosition(currentPiece->getJ() * Game::CELL_SIZE,
+                                currentPiece->getI() * Game::CELL_SIZE + BOARD_OFFSET);
+            window.draw(redRect);
         }
 
+        for (int i = 0; i < HEIGHT; ++i) {
+            for (int j = 0; j < WIDTH; ++j) {
+                if (board[i][j] != nullptr) {
+                    window.draw(board[i][j]->getIconSprite());
+                }
+            }
+
+        }
+        window.display();
+    } else {
+        draw_label();
     }
-    window.display();
 }
 
 

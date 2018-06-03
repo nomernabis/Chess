@@ -27,10 +27,14 @@ void Piece::setPosition(int i, int j){
 }
 
 void Piece::setPositionEeaten(int i) {
+    int offset = 0;
+    if(color == Color::BLACK){
+        offset = Game::CELL_SIZE * 8 + Game::BOARD_OFFSET;
+    }
     if(i < 8){
-        sprite.setPosition(i * Game::CELL_SIZE + OFFSET, OFFSET);
+        sprite.setPosition(i * Game::CELL_SIZE + OFFSET, OFFSET + offset);
     } else {
-        sprite.setPosition(i * Game::CELL_SIZE + OFFSET, Game::CELL_SIZE + OFFSET);
+        sprite.setPosition(i * Game::CELL_SIZE + OFFSET, Game::CELL_SIZE + OFFSET + offset);
     }
 }
 
